@@ -25,3 +25,6 @@ This is the **main** folder where both types of input data are combined using ke
 * These processed data are separately fed into mlp and cnn. The number of output nodes of both the architecture is kept the same.
 * Then both the output nodes are concatenated and passed through one more dense layer.
 * output node has one neuron with a linear activation function
+\
+\
+![image](https://github.com/Kartik-Aggarwal/House-Price-Estimation/blob/main/readme_images/final.png)
