@@ -4,6 +4,7 @@
 Predicting house prices from combination of image, numerical and categorical data. Images of interiors of house are taken as image data. Number of Bedrooms, Number of bathrooms and House Area are taken as numerical data and Zip code.
 
 ## Contents
+This repository contains four folders:
 * **House-dataset**\
 This folder contains the dataset used for training the model
     * Images of **n**th houses are named as n_bathroom, n_bedroom, n_frontal, n_kicthen
