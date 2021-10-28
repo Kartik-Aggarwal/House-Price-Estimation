@@ -13,6 +13,8 @@ import os
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
+ap.add_argument("-r", "--root", type=str, required=True,
+	help="path to root directory"
 ap.add_argument("-d", "--dataset", type=str, required=True,
 	help="path to input dataset of house images")
 args = vars(ap.parse_args())
@@ -26,27 +28,27 @@ df = datasets.load_house_attributes(inputPath)
 # construct a training and testing split with 75% of the data used
 # for training and the remaining 25% for evaluation
 print("[INFO] constructing training/testing split...")
-(train, test) = train_test_split(df, test_size=0.25, random_state=42)
+(train_df, test_df) = train_test_split(df, test_size=0.25)
 
 # find the largest house price in the training set and use it to
 # scale our house prices to the range [0, 1] (this will lead to
 # better training and convergence)
-maxPrice = train["price"].max()
-trainY = train["price"] / maxPrice
-testY = test["price"] / maxPrice
+maxPrice = train_df["price"].max()
+trainY = train_df["price"] / maxPrice
+testY = test_df["price"] / maxPrice
 
 # process the house attributes data by performing min-max scaling
 # on continuous features, one-hot encoding on categorical features,
 # and then finally concatenating them together
 print("[INFO] processing data...")
-(trainX, testX) = datasets.process_house_attributes(df, train, test)
+(trainX, testX) = datasets.process_house_attributes(df, train_df, test_df)
 
 # create our MLP and then compile the model using mean absolute
 # percentage error as our loss, implying that we seek to minimize
 # the absolute percentage difference between our price *predictions*
 # and the *actual prices*
 model = models.create_mlp(trainX.shape[1], regress=True)
-opt = Adam(lr=1e-3, decay=1e-3 / 200)
+opt = Adam(lr=1e-3, decay=1e-3 / 100)
 model.compile(loss="mean_absolute_percentage_error", optimizer=opt)
 
 # train the model
